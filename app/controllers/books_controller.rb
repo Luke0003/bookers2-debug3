@@ -4,6 +4,10 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @user = current_user
     @book_comment = BookComment.new
+    unless @book.view_counts.find_by(user_id: @user.id)
+      @view_count = @book.view_counts.new(user_id: @user.id)
+      @view_count.save
+    end
   end
 
   def index
