@@ -69,6 +69,7 @@
           <td><%= @books.created_today.count %></td>
         </tbody>
       </table>
+      <%= line_chart @books.group_by_day(:created_at, last: 7).count %>
     </div>
   </div>
 </div>
