@@ -70,6 +70,8 @@
         </tbody>
       </table>
       <%= line_chart @books.group_by_day(:created_at, last: 7).count %>
+      <%= render "daily_posts_form", user: @user %>
+
     </div>
   </div>
 </div>

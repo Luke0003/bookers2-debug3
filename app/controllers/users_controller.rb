@@ -11,6 +11,16 @@ class UsersController < ApplicationController
     @last_week_book = @books.created_last_week
   end
 
+  def daily_posts
+    user = User.find(params[:user_id])
+    if params[:created_at] == ""
+      render :daily_posts_error
+    else
+      @books = user.books.where(created_at: params[:created_at].to_date.all_day)
+      render :daily_posts_form
+    end
+  end
+
   def index
     @users = User.all
     @book = Book.new
