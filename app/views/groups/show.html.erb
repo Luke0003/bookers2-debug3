@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <td><%= image_tag @group.get_group_image, size: "100x100" %></td>
+          <td><%= image_tag @group.get_group_image, size: "50x50" %></td>
           <td><%= @group.name %></td>
           <td><%= @group.introduction %></td>
           <td>
@@ -28,17 +28,16 @@
               <%= user.name %><br>
             <% end %>
           </td>
-          <td>
             <% if @group.owner_id == current_user.id %>
-              <%= link_to "Edit", edit_group_path(@group), class: "btn btn-success btn-sm" %>
+              <td><%= link_to "Edit", edit_group_path(@group), class: "btn btn-success btn-sm" %></td>
+              <td><%= link_to "Notice an Event", new_group_event_notice_path(@group), class: "btn btn-info btn-sm" %></td>
             <% else %>
               <% if @group.includesUser?(current_user) %>
-                <%= link_to "Leave this group", group_group_users_path(@group), method: :delete, class: "btn btn-danger btn-sm" %>
+                <td><%= link_to "Leave this group", group_group_users_path(@group), method: :delete, class: "btn btn-danger btn-sm" %></td>
               <% else %>
-                <%= link_to "Join this group", group_group_users_path(@group), method: :post, class: "btn btn-success btn-sm" %>
+                <td><%= link_to "Join this group", group_group_users_path(@group), method: :post, class: "btn btn-success btn-sm" %></td>
               <% end %>
             <% end %>
-          </td>
         </tbody>
       </table>
     </div>
