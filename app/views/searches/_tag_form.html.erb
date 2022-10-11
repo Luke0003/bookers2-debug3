@@ -1,0 +1,6 @@
+<%= form_with url: searches_path, method: :get do |f| %>
+  <%= f.text_field :content %>
+  <%= f.hidden_field :model, :value => "Tag" %>
+  <%= f.hidden_field :method, :value => "perfect" %>
+  <%= f.submit "タグ検索" %>
+<% end %>

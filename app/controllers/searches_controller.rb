@@ -7,8 +7,10 @@ class SearchesController < ApplicationController
 
     if @model == "User"
       @users = User.search_for(@content, @method)
-    else
-      @books = Book.search_for(@content, @method)
+    elsif @model == "Book"
+      @records = Book.search_for(@content, @method)
+    elsif @model == "Tag"
+      @records = Tag.search_books_for(@content, @method)
     end
   end
 
