@@ -17,7 +17,11 @@ class ChatsController < ApplicationController
 
   def create
     @chat = current_user.chats.new(chat_params)
-    render :validater unless @chat.save
+    if @chat.save
+      ActionCable.server.broadcast 'message_channel', {content: @chat}
+    else
+      render :validater
+    end
   end
 
   private

@@ -1,6 +1,6 @@
 <h1><%= @user.name %>さんとのチャット</h1>
 
-<div class="message" style="width: 400px;">
+<div class="message" id="messages" style="width: 400px;">
   <% @chats.each do |chat| %>
     <% if chat.user_id == current_user.id %>
       <p style="text-align: right;"><%= chat.message %></p>
@@ -14,7 +14,7 @@
   <%= render "layouts/errors", obj: @chat %>
 </div>
 
-<%= form_with model: @chat, local: false do |f| %>
+<%= form_with model: @chat do |f| %>
   <%= f.text_field :message %>
   <%= f.hidden_field :room_id %>
 <% end %>
