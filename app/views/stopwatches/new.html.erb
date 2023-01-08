@@ -1,0 +1,104 @@
+<%= form_with(model: @stopwatch, local: true) do |f| %>
+  <%= f.label :rehabili_time, "リハビリ時間計測" %>
+  <%= f.text_field :rehabili_time, value: @initial_value, id: "clock", disabled: true %>
+  <%= button_tag '開始', type: 'button', id: "start" %>
+  <%= button_tag '停止', disabled: true, type: 'button', id: "stop" %>
+  <%= button_tag '再開', disabled: true, type: 'button', id: "restart" %>
+  <%= button_tag 'リセット', disabled: true, type: 'button', id: "reset" %>
+  <%= f.submit("タイム登録", class: "btn btn-primary") %>
+
+<% end %>
+
+
+<% array = [0, 0, 0] %>
+<% @stopwatches.each do |stopwatch| %>
+  <% for i in 0..2 %>
+    <% array[i] = array[i] + stopwatch.rehabili_time.split(":").map(&:to_i)[i] %>
+  <% end %>
+<% end %>
+
+<%= array %>
+<h3>あなたの本日のリハビリ時間は、<%= array[0]%>時間<%= array[1] %>分<%= array[2] %>秒です</h3>
+
+
+
+<script>
+
+
+$(function () {
+  var sec = 0;
+  var min = 0;
+  var hour = 0;
+
+  var timer;
+
+// スタート
+  $('#start').click(function() {
+  // 00:00:00から開始
+    sec = 0;
+    min = 0;
+    hour = 0;
+    $('#clock').html('00:00:00');
+    timer = setInterval(countup, 1000);
+
+    $(this).prop('disabled', true);
+    $('#stop,#reset').prop('disabled', false);
+  });
+  // ストップ
+  $('#stop').click(function() {
+    // 一時停止
+    clearInterval(timer);
+
+    $(this).prop('disabled', true);
+    $('#restart').prop('disabled', false);
+  });
+  // リスタート
+  $('#restart').click(function() {
+    // 一時停止から再開
+    timer = setInterval(countup, 1000);
+
+    $(this).prop('disabled', true);
+    $('#stop').prop('disabled', false);
+  });
+  // リセット
+  $('#reset').click(function() {
+    // 初期状態
+    sec = 0;
+    min = 0;
+    hour = 0;
+    $('#clock').html('00:00:00');
+    $('#clock').val('00:00:00');
+    clearInterval(timer);
+
+    $('#stop,#restart,#reset').prop('disabled', true);
+    $('#start').prop('disabled', false);
+  });
+  /**
+
+カウントアップ
+*/
+  function countup(){
+    sec += 1;
+
+    if (sec > 59) {
+      sec = 0;
+      min += 1;
+    }
+
+    if (min > 59) {
+      min = 0;
+      hour += 1;
+    }
+
+    // 0埋め
+    sec_number = ('0' + sec).slice(-2);
+    min_number = ('0' + min).slice(-2);
+    hour_number = ('0' + hour).slice(-2);
+
+    $('#clock').val(hour_number + ':' +  min_number + ':' + sec_number);
+    $('#clock').html(hour_number + ':' +  min_number + ':' + sec_number);
+  };
+});
+
+
+</script>

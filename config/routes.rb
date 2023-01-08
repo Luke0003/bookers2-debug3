@@ -22,5 +22,7 @@ Rails.application.routes.draw do
     resources :event_notices, only: [:new, :create]
     get "event_notices" => "event_notices#sent"
   end
+
+  resources :stopwatches, only: [:new, :create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
